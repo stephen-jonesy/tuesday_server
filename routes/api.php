@@ -15,20 +15,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: *');
+header('Access-Control-Allow-Origin: *');
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 // Public routes
 Route::post('/register', [AuthController::class, 'register']);
+
 Route::post('/login', [AuthController::class, 'login']);
+
+Route::get('/',function () {
+    return 'returned';
+});
 
 // Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/',function () {
-        return 'returned';
-    });
-    Route::post('/logout', [AuthController::class, 'logout']);
 
+    Route::post('/logout', [AuthController::class, 'logout']);
 
 });
